@@ -1,4 +1,5 @@
 require "lokalebasen_api/version"
+require "lokalebasen_api/mapper/location"
 require "lokalebasen_api/client"
 
 module LokalebasenApi
