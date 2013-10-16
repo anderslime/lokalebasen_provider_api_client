@@ -2,6 +2,7 @@ require "lokalebasen_api/version"
 require "lokalebasen_api/mapper/location"
 require "lokalebasen_api/resource/base"
 require "lokalebasen_api/resource/root"
+require "lokalebasen_api/resource/location"
 require "lokalebasen_api/client"
 
 module LokalebasenApi
