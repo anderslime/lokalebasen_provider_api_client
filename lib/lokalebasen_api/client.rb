@@ -1,10 +1,14 @@
 require 'json'
 require 'sawyer'
 require 'map'
+require 'forwardable'
 require_relative 'contact_client'
 
 module LokalebasenApi
   class Client
+    extend Forwardable
+
+    def_delegators :location_client, :locations
 
     attr_reader :logger, :agent
 
@@ -19,12 +23,6 @@ module LokalebasenApi
 
       raise "api_key required" if @api_key.nil?
       raise "service_url required" if @service_url.nil?
-    end
-
-    # Returns all locations for the current provider
-    # @return [Array<Map>] all locations
-    def locations
-      locations_res.data.locations.map {|loc| location_res_to_map(loc)}
     end
 
     # Returns all contacts for the current provider
@@ -167,6 +165,10 @@ module LokalebasenApi
     end
 
     private
+
+      def location_client
+        LokalebasenApi::LocationClient.new(agent)
+      end
 
       def contact_client
         @contact_client ||= LokalebasenApi::ContactClient.new(agent)
