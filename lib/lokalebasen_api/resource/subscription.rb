@@ -5,7 +5,7 @@ module LokalebasenApi
       attr_reader :location_resource
 
       def initialize(location_resource)
-        @location_resource = location_resource
+        @location_resource = location_resource_with_subscriptions(location_resource)
       end
 
       def all
@@ -35,6 +35,15 @@ module LokalebasenApi
 
       def get_subscriptions
         location_resource.rels[:subscriptions].get
+      end
+
+      def location_resource_with_subscriptions(resource)
+        return nil if resource.nil?
+        if resource.rels[:subscriptions]
+          resource
+        else
+          resource.rels[:self].get.data.location
+        end
       end
     end
   end
